@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Learning in Zero Gravity</title>
+  <meta name="description" content="Work-in-progress project page: zero-gravity RL experts as a cheap source of spatially diverse demonstrations for imitation-learned robot policies and VLAs.">
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Castoro&family=Noto+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="static/css/style.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='%232a78d6'/%3E%3Ccircle cx='16' cy='16' r='5' fill='white'/%3E%3C/svg%3E">
+</head>
+<body>
+
+<div class="wip-banner" role="note">
+  <strong>Work in progress</strong> &middot; all results on this page are preliminary; the main experiments are still running.
+</div>
+
+<!-- ================= HERO ================= -->
+<header class="hero">
+  <div class="container">
+    <h1>Learning in <span class="accent">Zero Gravity</span>: Spatially Diverse Demonstrations for Robot Manipulation Policies</h1>
+
+    <div class="authors">
+      <span>Asif Amin<sup>*1</sup></span>
+      <span><a href="https://scholar.google.com/citations?user=cirHYboAAAAJ&amp;hl=en" target="_blank" rel="noopener">Litian Gong</a><sup>*1</sup></span>
+      <span><a href="https://scholar.google.com/citations?user=1_f79vUAAAAJ&amp;hl=en" target="_blank" rel="noopener">Jiachen Li</a><sup>1,2</sup></span>
+    </div>
+    <div class="affils">
+      <span><sup>1</sup>University of California, Riverside</span>
+      <span><sup>2</sup>Georgia Institute of Technology</span>
+      <span><sup>*</sup>Equal contribution</span>
+    </div>
+    <div class="venue">Project in progress &middot; manuscript in preparation</div>
+
+    <div class="links">
+      <span class="btn disabled" title="Paper not yet available">
+        <svg viewBox="0 0 24 24"><path d="M6 2h9l5 5v15H6zM14 3.5V8h4.5z"/></svg>Paper <span class="tag">coming soon</span>
+      </span>
+      <span class="btn disabled" title="Code release planned">
+        <svg viewBox="0 0 24 24"><path d="M8.6 16.6 4 12l4.6-4.6L7.2 6 1.2 12l6 6zm6.8 0L20 12l-4.6-4.6L16.8 6l6 6-6 6z"/></svg>Code <span class="tag">soon</span>
+      </span>
+      <a class="btn" href="#datasets">
+        <svg viewBox="0 0 24 24"><path d="M12 2C7 2 3 3.8 3 6v12c0 2.2 4 4 9 4s9-1.8 9-4V6c0-2.2-4-4-9-4zm0 2c4.4 0 7 1.4 7 2s-2.6 2-7 2-7-1.4-7-2 2.6-2 7-2zm7 14c0 .6-2.6 2-7 2s-7-1.4-7-2v-2.3c1.6.8 4.2 1.3 7 1.3s5.4-.5 7-1.3zm0-5c0 .6-2.6 2-7 2s-7-1.4-7-2v-2.3c1.6.8 4.2 1.3 7 1.3s5.4-.5 7-1.3z"/></svg>Datasets
+      </a>
+      <span class="btn disabled" title="Summary video not yet made">
+        <svg viewBox="0 0 24 24"><path d="M4 4h12v16H4zm13 5 5-3v12l-5-3z"/></svg>Video <span class="tag">soon</span>
+      </span>
+      <a class="btn" href="#bibtex-section">
+        <svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></svg>BibTeX
+      </a>
+    </div>
+
+    <div class="teaser-top">
+      <figure>
+      <video class="lazy" muted loop playsinline autoplay preload="none"
+             poster="static/images/teaser_zg_tasks_poster.jpg" data-src="static/videos/teaser_zg_tasks.mp4"></video>
+      <figcaption class="center">
+        <b>Zero-G experts on six tasks.</b> Ray-traced from the DROID-style rig's exterior camera (Franka arm,
+        Robotiq gripper). Objects start floating in mid-air, so their shadows sit apart from them; gravity switches on
+        when the robot touches or grasps them. Green rings mark goals that are otherwise invisible to the camera. Five
+        clips replay successful episodes from our released dataset; PickSingleYCB is a fresh rollout of the same expert,
+        because the dataset does not record which YCB object each episode used. Each clip plays at 2&times; speed up to
+        its first success, then holds.
+      </figcaption>
+    </figure>
+    </div>
+
+    <div class="tldr">
+      <b>TL;DR</b> &mdash; Simulated tabletop tasks only show a policy a near-2D slice of the 3D world.
+      We train reinforcement-learning manipulation experts with gravity
+      <b class="k">switched off until the robot touches or grasps the object</b>. Floating objects push
+      the experts to reach, push and grasp throughout 3D space instead of only near the table.
+      In preliminary experiments these experts cover <b class="k">more of the workspace</b> than
+      regular-gravity experts. We are now testing whether their demonstrations give imitation-learned
+      policies, including <b class="k">vision-language-action models (VLAs)</b>, better spatial generalisation.
+    </div>
+
+    <nav class="toc" aria-label="Sections">
+      <a href="#contributions">Contributions</a>
+      <a href="#abstract">Abstract</a>
+      <a href="#method">Method</a>
+      <a href="#environments">Environments</a>
+      <a href="#results">Preliminary results</a>
+      <a href="#datasets">Datasets</a>
+      <a href="#progress">In progress</a>
+      <a href="#bibtex-section">BibTeX</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- ================= CONTRIBUTIONS (front and center) ================= -->
+<section id="contributions" class="contrib-section">
+  <div class="container">
+    <h2>Contributions</h2>
+    <div class="contrib contrib-4">
+      <div>
+        <div class="n">1</div>
+        <h4>Selective containment volumes</h4>
+        <p>A new mechanism that makes learning in zero gravity possible: thin walls that block the floating object but
+          not the robot arm (separate collision groups), and are invisible to cameras. Without them a floating object
+          drifts out of reach and training gets no signal. Task-defining walls can be released on contact or grasp.</p>
+        <span class="badge done">implemented &middot; 8 tasks, 2 robots</span>
+      </div>
+      <div>
+        <div class="n">2</div>
+        <h4>Gravity-on-contact and gravity-on-grasp</h4>
+        <p>In pure zero gravity, policies exploit the floating object instead of learning the skill (reward hacking).
+          We switch gravity on per environment at first contact or at grasp, so the object floats while the robot
+          explores and the task is finished under normal gravity.</p>
+        <span class="badge done">implemented</span>
+      </div>
+      <div>
+        <div class="n">3</div>
+        <h4>Zero gravity as a spatial-diversity enhancer, beyond domain randomization</h4>
+        <p>We compare zero gravity with gravity domain randomization, both fixed range and adaptive (ADR, OpenAI 2019),
+          and with regular gravity with and without walls: same tasks, same PPO recipe, 3 seeds per arm.</p>
+        <span class="badge wip">in progress &middot; 120-run comparison running</span>
+      </div>
+      <div>
+        <div class="n">4</div>
+        <h4>Altered gravity as the primary training regime</h4>
+        <p>To our knowledge, the first study of altered gravity as the main training regime for tabletop manipulation,
+          rather than as a robustness perturbation, and of whether the resulting demonstrations improve imitation-learned
+          policies and VLAs.</p>
+        <span class="badge wip">in progress &middot; VLA distillation next</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ================= ABSTRACT ================= -->
+<section id="abstract">
+  <div class="container">
+    <h2>Abstract <span class="badge wip">draft</span></h2>
+    <p>
+      Vision-language-action models (VLAs) learn from embodied observation-action pairs. Unlike language models, they
+      cannot draw on decades of accumulated internet-scale data, so they rely heavily on simulation, where task diversity
+      is a fundamental constraint. We study <em>physics as an axis of exploration</em> for synthetic embodied data
+      collection, beyond domain randomization.
+    </p>
+    <p>
+      Existing simulated tabletop manipulation tasks mimic real-world gravity, which restricts the policy's experience to
+      a near-2D slice of the 3D world: objects rest on the table and are approached from a narrow band of heights and
+      directions. By <em>disabling simulated gravity for the object</em>, we lift this constraint. The same task then spans
+      the full 3D volume, exposing the policy to object poses and contact configurations that tabletop episodes never
+      visit. Two mechanisms make this trainable: <em>selective containment volumes</em>, thin walls that keep the floating
+      object within reach without blocking the robot, and <em>gravity that switches on at contact or grasp</em>, which
+      prevents the reward hacking we see in pure zero gravity and leaves the task itself unchanged.
+    </p>
+    <p>
+      We train reinforcement-learning (PPO) experts this way on 8 ManiSkill3 tasks, compare them with regular gravity and
+      with fixed and adaptive gravity randomization, and distill their success-filtered demonstrations into imitation
+      policies and VLAs. Preliminary results on a stock Franka Panda show that zero-gravity experts cover more of the
+      workspace than regular-gravity experts, with mixed but encouraging zero-shot transfer to harder spatial variants.
+      By distilling an expert trained on <span class="ph-text">[X]</span> zero-gravity episodes and evaluating on a set of
+      tabletop manipulation tasks, we observe an average of <span class="ph-text">[X]</span> improvement in task
+      performance compared to policies distilled from regular-gravity experts <span class="badge wip">distillation results pending</span>.
+    </p>
+
+  </div>
+</section>
+
+<!-- ================= METHOD ================= -->
+<section id="method">
+  <div class="container">
+    <h2>Method</h2>
+    <figure>
+      <svg class="diagram" viewBox="0 0 960 300" role="img" aria-label="Pipeline: zero-gravity PPO experts, then spatially diverse demonstrations, then policy or VLA distillation, then evaluation on spatial targets">
+        <defs>
+          <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+            <path d="M0 0 L10 5 L0 10 z" fill="#8a929c"/>
+          </marker>
+        </defs>
+        <!-- stage boxes -->
+        <g>
+          <rect x="10" y="40" width="210" height="200" rx="12" fill="#e8f1fc" stroke="#2a78d6" stroke-width="1.5"/>
+          <text x="115" y="68" text-anchor="middle" font-size="13" font-weight="700" fill="#2a78d6">1 &middot; ZERO-G RL EXPERTS</text>
+          <!-- walled volume with floating object -->
+          <rect x="60" y="88" width="110" height="90" fill="none" stroke="#7aa7e0" stroke-dasharray="4 3"/>
+          <line x1="40" y1="178" x2="190" y2="178" stroke="#a0773f" stroke-width="5"/>
+          <rect x="100" y="112" width="16" height="16" fill="#d64545" transform="rotate(18 108 120)"/>
+          <path d="M108 140 v20" stroke="#bbb" stroke-dasharray="2 3"/>
+          <ellipse cx="108" cy="174" rx="10" ry="2.5" fill="#00000022"/>
+          <text x="115" y="204" text-anchor="middle" font-size="12" fill="#333">PPO, ManiSkill3 (GPU sim)</text>
+          <text x="115" y="221" text-anchor="middle" font-size="12" fill="#333">g = 0 until contact / grasp</text>
+        </g>
+        <g>
+          <rect x="255" y="40" width="210" height="200" rx="12" fill="#f6f7f9" stroke="#8a929c" stroke-width="1.2"/>
+          <text x="360" y="68" text-anchor="middle" font-size="13" font-weight="700" fill="#39414a">2 &middot; DIVERSE DEMOS</text>
+          <!-- scattered trajectory points in 3D-ish box -->
+          <g fill="#2a78d6" opacity=".75">
+            <circle cx="300" cy="100" r="3"/><circle cx="330" cy="120" r="3"/><circle cx="410" cy="95" r="3"/>
+            <circle cx="380" cy="140" r="3"/><circle cx="315" cy="160" r="3"/><circle cx="420" cy="165" r="3"/>
+            <circle cx="350" cy="105" r="3"/><circle cx="395" cy="118" r="3"/><circle cx="345" cy="150" r="3"/>
+          </g>
+          <g fill="#eb6834" opacity=".75">
+            <circle cx="330" cy="172" r="3"/><circle cx="360" cy="174" r="3"/><circle cx="390" cy="171" r="3"/>
+          </g>
+          <line x1="285" y1="178" x2="435" y2="178" stroke="#a0773f" stroke-width="5"/>
+          <text x="360" y="204" text-anchor="middle" font-size="12" fill="#333">success-filtered, trimmed</text>
+          <text x="360" y="221" text-anchor="middle" font-size="12" fill="#333"><tspan fill="#2a78d6">&#9679;</tspan> zero-G  <tspan fill="#eb6834">&#9679;</tspan> regular gravity</text>
+        </g>
+        <g>
+          <rect x="500" y="40" width="210" height="200" rx="12" fill="#fff" stroke="#8a929c" stroke-width="1.2" stroke-dasharray="6 4"/>
+          <text x="605" y="68" text-anchor="middle" font-size="13" font-weight="700" fill="#39414a">3 &middot; DISTILLATION</text>
+          <rect x="545" y="92" width="120" height="34" rx="6" fill="#eef0f3"/>
+          <text x="605" y="114" text-anchor="middle" font-size="12" fill="#333">images + language</text>
+          <path d="M605 128 v14" stroke="#8a929c" marker-end="url(#arr)"/>
+          <rect x="545" y="146" width="120" height="34" rx="6" fill="#39414a"/>
+          <text x="605" y="168" text-anchor="middle" font-size="12.5" fill="#fff">VLA (&#960;0.5) / DP</text>
+          <text x="605" y="204" text-anchor="middle" font-size="12" fill="#333">behaviour cloning</text>
+          <text x="605" y="221" text-anchor="middle" font-size="11.5" font-weight="700" fill="#9a6200">IN PROGRESS</text>
+        </g>
+        <g>
+          <rect x="745" y="40" width="205" height="200" rx="12" fill="#fff" stroke="#8a929c" stroke-width="1.2" stroke-dasharray="6 4"/>
+          <text x="847" y="68" text-anchor="middle" font-size="13" font-weight="700" fill="#39414a">4 &middot; SPATIAL EVAL</text>
+          <!-- platforms -->
+          <line x1="770" y1="178" x2="925" y2="178" stroke="#a0773f" stroke-width="5"/>
+          <rect x="790" y="140" width="40" height="38" fill="#c9ced5"/>
+          <rect x="860" y="112" width="40" height="66" fill="#c9ced5"/>
+          <rect x="802" y="126" width="14" height="14" fill="#d64545"/>
+          <circle cx="880" cy="98" r="6" fill="#3bb36b"/>
+          <text x="847" y="204" text-anchor="middle" font-size="12" fill="#333">unseen heights / platforms</text>
+          <text x="847" y="221" text-anchor="middle" font-size="12" fill="#333">sim now &middot; hardware planned</text>
+        </g>
+        <!-- arrows -->
+        <path d="M222 140 H250" stroke="#8a929c" stroke-width="2" marker-end="url(#arr)"/>
+        <path d="M467 140 H495" stroke="#8a929c" stroke-width="2" marker-end="url(#arr)"/>
+        <path d="M712 140 H740" stroke="#8a929c" stroke-width="2" marker-end="url(#arr)"/>
+        <text x="480" y="280" text-anchor="middle" font-size="12" fill="#5b6470">solid boxes: implemented &middot; dashed boxes: in progress / planned</text>
+      </svg>
+      <figcaption class="center">Pipeline overview (schematic, not data).</figcaption>
+    </figure>
+
+    <h3>Zero-gravity training</h3>
+    <p>
+      Each task is a ManiSkill3 tabletop task (Franka arm). We place the object at a random point in a walled 3D volume
+      above the table instead of on the table surface. The walls are thin and collision-only: they keep the object, but
+      not the arm, inside the workspace, and cameras do not see them. Gravity is cancelled per environment by writing an
+      opposing force directly into the GPU physics buffers every step. Three modes are used:
+    </p>
+    <ul>
+      <li><b>off</b>: the object floats for the whole episode;</li>
+      <li><b>on-contact</b>: gravity switches on the first time the gripper touches the object;</li>
+      <li><b>on-grasp</b>: gravity switches on once the object is grasped.</li>
+    </ul>
+    <p>
+      Once switched on, gravity stays on for the rest of the episode, so the end of every episode is the ordinary
+      regular-gravity task. Because the object can be anywhere, the PPO expert must learn to approach and manipulate it from
+      many heights and directions. Its success-filtered rollouts become the demonstration dataset.
+    </p>
+
+    <h3>Competing sources of diversity</h3>
+    <p>
+      Zero gravity is one way to make the data more diverse. The question that matters is whether it beats other ways at the
+      same cost. All arms share the task, the walled 3D spawn volume (except "no walls") and the PPO recipe:
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Training arm</th><th>Gravity during training</th><th class="c">3D spawn</th><th class="c">Walls</th></tr></thead>
+        <tbody>
+          <tr><td><b>Zero-G</b> (ours)</td><td>0 until contact / grasp, then 9.81 m/s&sup2;</td><td class="c">&#10003;</td><td class="c">&#10003;</td></tr>
+          <tr><td>Regular gravity, walled</td><td>9.81 m/s&sup2;</td><td class="c">&#10003;</td><td class="c">&#10003;</td></tr>
+          <tr><td>Regular gravity, no walls</td><td>9.81 m/s&sup2;</td><td class="c">&#10003;</td><td class="c">&ndash;</td></tr>
+          <tr><td>Gravity-DR (fixed range)</td><td>|g| ~ U[6, 14] m/s&sup2; per episode, straight down</td><td class="c">&#10003;</td><td class="c">&#10003;</td></tr>
+          <tr><td>Gravity-ADR (adaptive)</td><td>|g| = 9.81 &plusmn; r, with r widened by automatic domain randomisation (OpenAI 2019, magnitude-only)</td><td class="c">&#10003;</td><td class="c">&#10003;</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ENVIRONMENTS ================= -->
+<section id="environments">
+  <div class="container">
+    <h2>Environments</h2>
+    <p class="center muted" style="max-width:780px;margin:0 auto 18px">
+      Eight ManiSkill3 tasks (StackCube and PokeCube planned), each shown under four of the training arms.
+      Pick a task to see what happens to the object when <b>the robot does nothing</b>: in Zero-G the object keeps
+      floating (and may drift and bounce off the invisible walls); under regular gravity it falls to the table.
+    </p>
+    <div class="tabs" id="task-tabs" role="tablist" aria-label="Task"></div>
+    <div class="task-desc" id="task-desc"></div>
+    <div class="arm-grid" id="arm-grid"></div>
+    <figcaption style="margin-top:12px">
+      <b>What these clips are.</b> Zero-action rollouts (no policy), stock Franka Panda, seed 0, so every arm starts
+      from the same spawn. Rendered with ManiSkill's default rasteriser for checking the environments before training; these
+      are not ray-traced. The coloured box edges show the containment walls for visualisation only, since the walls are
+      invisible to cameras during training. The Gravity-ADR (adaptive) arm is not shown separately: its gravity range
+      starts at zero width, so at the start of training it looks the same as "regular gravity, walled".
+    </figcaption>
+  </div>
+</section>
+
+<!-- ================= RESULTS ================= -->
+<section id="results">
+  <div class="container">
+    <h2>Preliminary results <span class="badge prelim">preliminary</span></h2>
+    <div class="callout">
+      The figures below come from an <b>earlier experiment batch on the stock Panda</b>. Those experts were trained on
+      older physics (object restitution 0.9, and multi-shape objects not fully contained by the walls). Both have since
+      been fixed, and the batch is being re-run on current code (see <a href="#progress">In progress</a>). Expect the
+      numbers to change.
+    </div>
+
+    <p class="rq">Q1 &middot; Expert behaviour</p>
+    <h3>Do zero-gravity experts explore more of the workspace?</h3>
+    <figure class="fig">
+      <img src="static/images/fig_spatial_exploration.png" alt="Four bar-chart panels comparing Zero-G, Stock unwalled, Vanilla walled and Vanilla walled matched arms on PushCube, PickCube, PushT and LiftPeg for unique object states, object spatial entropy, TCP spatial entropy and TCP convex hull volume" loading="lazy">
+      <figcaption>
+        <b>Spatial coverage during evaluation rollouts</b>, four tasks, four arms (stock Panda, older physics). Metrics:
+        number of unique (discretised) object states visited, entropy of object and end-effector (TCP) positions, and the
+        convex-hull volume swept by the end effector. Each value is averaged over the evaluations up to the run's best
+        checkpoint; bars show mean &plusmn; SEM across seeds. The arm labels in this figure are older names.
+        "Stock (unwalled)" is the unmodified task with table spawns. "Vanilla (walled, matched)" is regular gravity with the
+        same walls and 3D spawn as Zero-G, so it is the closest control.
+      </figcaption>
+    </figure>
+    <div class="finding">
+      <b>Observation.</b> Zero-G has the most unique object states on all four tasks and the largest end-effector hull
+      volume on three of the four (LiftPeg: walled vanilla is higher, with a large error bar). On the entropy metrics the
+      gap is small except on PushT. Part of the gap to the "stock" arm comes from the 3D spawn itself, which is why the
+      matched arm is the fair comparison.
+    </div>
+
+    <p class="rq">Q2 &middot; Expert-level spatial transfer</p>
+    <h3>Do zero-gravity experts transfer zero-shot to harder spatial layouts?</h3>
+    <figure class="fig">
+      <img src="static/images/fig_spatial_transfer_bar.png" alt="Grouped bar chart of zero-shot success for Zero-G and gravity domain randomisation on five spatial target tasks" loading="lazy">
+      <figcaption>
+        <b>Zero-shot success on unseen spatial variants</b> (e.g. cubes on raised platforms, spawns on a platform), stock
+        Panda, older physics. Each expert was trained on its normal task and evaluated without fine-tuning on the harder
+        layout. <b>Note the two y-axes</b>: PushCube on the left, the other tasks (hatched) on the right, about 10&times;
+        smaller. Points are per-checkpoint values (best and final checkpoint of 3 seeds). &times; marks a value excluded as
+        an outlier. The purple arm, labelled "Gravity-ADR" in the figure, is the <em>fixed-range</em> gravity randomisation
+        (|g| ~ U[6, 14] m/s&sup2;), not the adaptive variant.
+      </figcaption>
+    </figure>
+    <div class="finding">
+      <b>Observation.</b> Zero-G is ahead on PushCube (32.6% vs 26.8%), PickCube and PushT. Gravity-DR is ahead on LiftPeg
+      and PickSingleYCB. Apart from PushCube, absolute success on these targets is very low (0&ndash;6%). So this is a
+      motivating signal, not a result: these targets are hard for any expert trained only on the source task. That is part
+      of why the main claim rests on distilled policies (Q3) rather than on the experts alone.
+    </div>
+    <details>
+      <summary>Same comparison as test-time gravity varies (1.5, 3, 4.5 and 9.81 m/s&sup2;)</summary>
+      <figure class="fig" style="margin:0">
+        <img src="static/images/fig_gravity_sweep.png" alt="Four-panel version of the transfer bar chart at different test-time gravity values" loading="lazy">
+        <figcaption>The same experts evaluated at four test-time gravity values; three of them lie outside the DR training
+          range. The ranking between arms barely changes across gravity values. Same caveats as above.</figcaption>
+      </figure>
+    </details>
+
+    <p class="rq">Q3 &middot; Distillation (headline experiment)</p>
+    <h3>Do zero-gravity demonstrations give policies and VLAs better spatial generalisation?</h3>
+    <div class="placeholder wide">
+      <strong>Placeholder: no result yet</strong>
+      Planned: fine-tune &pi;<sub>0.5</sub> (and/or a diffusion policy) on equal-sized, success-filtered demonstration sets
+      from each arm, with data scaling (e.g. 100 / 500 / 1000 demos) and 3 seeds. Evaluate in distribution and on the
+      spatial targets, and test whether each dataset's measured spatial coverage predicts transfer.
+    </div>
+    <div class="pair" style="margin-top:14px">
+      <div class="placeholder square"><strong>Placeholder video</strong>VLA trained on Zero-G demos, rollout on a spatial target</div>
+      <div class="placeholder square"><strong>Placeholder video</strong>VLA trained on regular-gravity demos, same target</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DATASETS ================= -->
+<section id="datasets">
+  <div class="container">
+    <h2>Datasets <span class="badge real">released</span></h2>
+    <p>
+      Two matched, state-only demonstration datasets from a DROID-style robot setup (Franka arm, Robotiq gripper,
+      impedance control). Each covers 8 tasks with about 1,000 success-filtered, trimmed episodes per task, in LeRobot
+      format, under CC-BY-4.0. In both datasets the experts follow the same recipe on the same spawn distribution; the
+      intended difference is gravity.
+    </p>
+    <div class="cards">
+      <div class="card">
+        <h4>Zero-gravity trajectories (state, v1)</h4>
+        <p>PushCube, LiftPeg, PickCube, PickSingleYCB, PullCube, PlaceSphere, RollBall, PushT.</p>
+        <a href="https://huggingface.co/datasets/stray-light/zerograv-manipulation-trajectories-state-v1" target="_blank" rel="noopener"><code>stray-light/zerograv-manipulation-trajectories-state-v1</code></a>
+      </div>
+      <div class="card">
+        <h4>Regular-gravity control (state, v1)</h4>
+        <p>Same 8 tasks, gravity always on ("vanilla-matched" envs).</p>
+        <a href="https://huggingface.co/datasets/stray-light/zerograv-manipulation-regular-gravity-trajectories-state-v1" target="_blank" rel="noopener"><code>stray-light/zerograv-manipulation-regular-gravity-trajectories-state-v1</code></a>
+      </div>
+    </div>
+    <div class="callout">
+      <b>Known issues, documented on the dataset cards:</b> the zero-gravity PullCube episodes were collected under a
+      simulation bug. The five tasks collected before 30 Sep 2026 use object restitution 0.9 instead of ManiSkill's 0.0.
+      Experts are single-seed, and some checkpoints come from runs that were still training. Image-observation datasets are
+      not yet rendered.
+    </div>
+
+    <h3>Sample demonstrations: PushT, zero gravity vs regular gravity</h3>
+    <div class="pair">
+      <figure>
+        <video class="lazy" muted loop playsinline preload="none" poster="static/videos/demos/pusht_droid_zg_typical_ep0_firstsucc143.jpg" data-src="static/videos/demos/pusht_droid_zg_typical_ep0_firstsucc143.mp4"></video>
+        <figcaption><b>Zero gravity</b> (on contact): the tee floats until touched.</figcaption>
+      </figure>
+      <figure>
+        <video class="lazy" muted loop playsinline preload="none" poster="static/videos/demos/pusht_droid_vm_typical_ep0_firstsucc167.jpg" data-src="static/videos/demos/pusht_droid_vm_typical_ep0_firstsucc167.mp4"></video>
+        <figcaption><b>Regular gravity</b>: the tee drops onto the table first.</figcaption>
+      </figure>
+      <figure>
+        <video class="lazy" muted loop playsinline preload="none" poster="static/videos/demos/pusht_droid_zg_typical_ep1_firstsucc226.jpg" data-src="static/videos/demos/pusht_droid_zg_typical_ep1_firstsucc226.mp4"></video>
+        <figcaption>Zero gravity, another episode</figcaption>
+      </figure>
+      <figure>
+        <video class="lazy" muted loop playsinline preload="none" poster="static/videos/demos/pusht_droid_vm_typical_ep1_firstsucc158.jpg" data-src="static/videos/demos/pusht_droid_vm_typical_ep1_firstsucc158.mp4"></video>
+        <figcaption>Regular gravity, another episode</figcaption>
+      </figure>
+    </div>
+    <figcaption class="center" style="max-width:760px;margin:10px auto 0">
+      Replays of recorded episodes from the two released datasets: the DROID-style robot, trimmed shortly after the first
+      success (every second frame shown). Rendered with the default rasteriser. Wall edges are drawn for visualisation only.
+    </figcaption>
+  </div>
+</section>
+
+<!-- ================= IN PROGRESS ================= -->
+<section id="progress">
+  <div class="container">
+    <h2>In progress</h2>
+    <ul class="status">
+      <li><span class="badge wip">running</span><div><b>5-arm, 8-task comparison on the stock Panda.</b> 8 tasks &times; 5 arms
+        (Zero-G, regular gravity walled and without walls, Gravity-DR fixed, Gravity-ADR adaptive) &times; 3 seeds =
+        120 PPO training runs on current physics. This batch replaces the preliminary results above.</div></li>
+      <li><span class="badge wip">next</span><div><b>Spatial-transfer targets for all tasks.</b> Raised platforms and elevated
+        spawns already exist for 5 tasks. PullCube, PlaceSphere and RollBall are next, then StackCube and PokeCube (10 tasks in total).</div></li>
+      <li><span class="badge wip">planned</span><div><b>DROID-style robot.</b> The same comparison on a Franka + Robotiq setup that
+        mirrors our lab's hardware (the released datasets already use it).</div></li>
+      <li><span class="badge wip">planned</span><div><b>Distillation into a VLA.</b> Fine-tune &pi;<sub>0.5</sub> on rendered
+        image demonstrations from each arm, at an equal frame budget, and evaluate in distribution and on the spatial targets.
+        The pipeline exists, but the image datasets still need to be rendered.</div></li>
+      <li><span class="badge wip">planned</span><div><b>Hardware.</b> A small zero-shot sim-to-real evaluation on the
+        DROID-style rig.</div></li>
+      <li><span class="badge done">done</span><div><b>Released datasets</b> (above), per-environment gravity control on
+        the GPU simulator, and walled 3D-spawn versions of 8 tasks.</div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= BIBTEX ================= -->
+<section id="bibtex-section">
+  <div class="container">
+    <h2>BibTeX</h2>
+    <div class="bib">
+      <button class="copy" id="copy-bib" type="button">Copy</button>
+<pre id="bibtex">@misc{zerograv2026,
+  title  = {Learning in Zero Gravity: Spatially Diverse Demonstrations
+            for Robot Manipulation Policies},
+  author = {Amin, Asif and Gong, Litian and Li, Jiachen},
+  year   = {2026},
+  note   = {Work in progress. Placeholder entry; no paper yet.}
+}</pre>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section id="contact">
+  <div class="container center">
+    <h2>Contact</h2>
+    <p>Questions or interest in collaborating: <span class="ph-text">contact@example.com</span></p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="container">
+    Simulation: ManiSkill3 / SAPIEN. Page layout inspired by the
+    <a href="https://visibletouch.github.io/" target="_blank" rel="noopener">Visible Touch</a> and
+    <a href="https://metactrlg.github.io/" target="_blank" rel="noopener">Meta-Ctrl</a> project pages.
+  </div>
+</footer>
+
+<script src="static/js/main.js"></script>
+</body>
+</html>
