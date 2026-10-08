@@ -79,7 +79,10 @@
     </div>
 
     <figure class="fig headline-result">
-      <img src="static/images/fig_stage_funnel_zg.png" alt="Six line charts, one per task, showing for each training arm the share of episodes that reached, touched, grasped or moved the object, and succeeded, when the object rests on a support at a new height. The Zero-G line sits far above the four gravity-trained baselines on five of six tasks." loading="lazy">
+      <picture>
+        <source media="(max-width: 640px)" srcset="static/images/fig_stage_funnel_zg_narrow.png">
+        <img src="static/images/fig_stage_funnel_zg.png" alt="Six line charts, one per task, showing for each training arm the share of episodes that reached, touched, grasped or moved the object, and succeeded, when the object rests on a support at a new height. The Zero-G line sits far above the four gravity-trained baselines on five of six tasks." loading="lazy">
+      </picture>
       <figcaption>
         <b>Headline result <span class="badge prelim">preliminary</span> &mdash; Zero-G policies go to objects at new heights.</b>
         We place each task's object on a support at heights where Zero-G experts saw objects floating during training

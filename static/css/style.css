@@ -231,5 +231,6 @@ footer { border-top: 1px solid var(--line); margin-top: 40px; padding: 24px 0 40
 .teaser-top figcaption { text-align: center; }
 
 /* headline result figure under the TL;DR (2026-10-08) */
-.headline-result { max-width: 980px; margin: 22px auto 18px; }
-.headline-result figcaption { max-width: 860px; margin-left: auto; margin-right: auto; }
+.headline-result { max-width: 820px; margin: 40px auto 30px; padding: 12px 14px 14px; }
+.headline-result img { width: 100%; height: auto; }
+.headline-result figcaption { text-align: left; font-size: 14px; margin-top: 10px; }
