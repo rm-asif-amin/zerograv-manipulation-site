@@ -78,6 +78,20 @@
       policies, including <b class="k">vision-language-action models (VLAs)</b>, better spatial generalisation.
     </div>
 
+    <figure class="fig headline-result">
+      <img src="static/images/fig_stage_funnel_zg.png" alt="Six line charts, one per task, showing for each training arm the share of episodes that reached, touched, grasped or moved the object, and succeeded, when the object rests on a support at a new height. The Zero-G line sits far above the four gravity-trained baselines on five of six tasks." loading="lazy">
+      <figcaption>
+        <b>Headline result <span class="badge prelim">preliminary</span> &mdash; Zero-G policies go to objects at new heights.</b>
+        We place each task's object on a support at heights where Zero-G experts saw objects floating during training
+        but gravity-trained experts never did. Each point is the share of episodes that completed that stage and every
+        earlier one (mean &plusmn; SEM over 3 seeds). On five of six tasks the Zero-G policy reaches, touches and grasps
+        the object far more often than any gravity-trained baseline, including gravity randomisation; the baselines
+        mostly stop at the first stage. Full task success stays low for every policy, because these variants add a step
+        none was trained for (getting the object down from the support). Provisional numbers: CPU simulation,
+        24 episodes per evaluation.
+      </figcaption>
+    </figure>
+
     <nav class="toc" aria-label="Sections">
       <a href="#contributions">Contributions</a>
       <a href="#abstract">Abstract</a>

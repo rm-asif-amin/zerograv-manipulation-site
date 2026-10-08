@@ -229,3 +229,7 @@ footer { border-top: 1px solid var(--line); margin-top: 40px; padding: 24px 0 40
 .teaser-top { margin: 18px auto 20px; max-width: 900px; }
 .teaser-top video { width: 100%; border-radius: var(--radius); background: #000; }
 .teaser-top figcaption { text-align: center; }
+
+/* headline result figure under the TL;DR (2026-10-08) */
+.headline-result { max-width: 980px; margin: 22px auto 18px; }
+.headline-result figcaption { max-width: 860px; margin-left: auto; margin-right: auto; }
