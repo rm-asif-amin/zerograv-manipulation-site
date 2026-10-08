@@ -329,11 +329,10 @@
     <p class="rq">Q1 &middot; Expert behaviour</p>
     <h3>Do zero-gravity experts explore more of the workspace?</h3>
     <figure class="fig">
-      <img src="static/images/fig_spatial_exploration.png" alt="Four bar-chart panels comparing Zero-G, Stock unwalled, Vanilla walled and Vanilla walled matched arms on PushCube, PickCube, PushT and LiftPeg for unique object states, object spatial entropy, TCP spatial entropy and TCP convex hull volume" loading="lazy">
+      <img src="static/images/fig_spatial_exploration_2panel.png" alt="Two bar-chart panels comparing Zero-G, Stock unwalled, Vanilla walled and Vanilla walled matched arms on PushCube, PickCube, PushT and LiftPeg for unique object states and end-effector convex hull volume" loading="lazy">
       <figcaption>
         <b>Spatial coverage during evaluation rollouts</b>, four tasks, four arms (stock Panda, older physics). Metrics:
-        number of unique (discretised) object states visited, entropy of object and end-effector (TCP) positions, and the
-        convex-hull volume swept by the end effector. Each value is averaged over the evaluations up to the run's best
+        number of unique (discretised) object states visited, and the convex-hull volume swept by the end effector (TCP). Each value is averaged over the evaluations up to the run's best
         checkpoint; bars show mean &plusmn; SEM across seeds. The arm labels in this figure are older names.
         "Stock (unwalled)" is the unmodified task with table spawns. "Vanilla (walled, matched)" is regular gravity with the
         same walls and 3D spawn as Zero-G, so it is the closest control.
@@ -341,8 +340,7 @@
     </figure>
     <div class="finding">
       <b>Observation.</b> Zero-G has the most unique object states on all four tasks and the largest end-effector hull
-      volume on three of the four (LiftPeg: walled vanilla is higher, with a large error bar). On the entropy metrics the
-      gap is small except on PushT. Part of the gap to the "stock" arm comes from the 3D spawn itself, which is why the
+      volume on three of the four (LiftPeg: walled vanilla is higher, with a large error bar). Part of the gap to the "stock" arm comes from the 3D spawn itself, which is why the
       matched arm is the fair comparison.
     </div>
 
