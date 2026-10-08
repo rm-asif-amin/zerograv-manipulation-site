@@ -347,21 +347,25 @@
     <p class="rq">Q2 &middot; Expert-level spatial transfer</p>
     <h3>Do zero-gravity experts transfer zero-shot to harder spatial layouts?</h3>
     <figure class="fig">
-      <img src="static/images/fig_spatial_transfer_bar.png" alt="Grouped bar chart of zero-shot success for Zero-G and gravity domain randomisation on five spatial target tasks" loading="lazy">
+      <img src="static/images/fig_spatial_transfer_bar_3arms.png" alt="Grouped bar chart of zero-shot task success for Zero-G, fixed-range gravity randomisation and adaptive gravity randomisation on six spatially harder task variants" loading="lazy">
       <figcaption>
-        <b>Zero-shot success on unseen spatial variants</b> (e.g. cubes on raised platforms, spawns on a platform), stock
-        Panda, older physics. Each expert was trained on its normal task and evaluated without fine-tuning on the harder
-        layout. <b>Note the two y-axes</b>: PushCube on the left, the other tasks (hatched) on the right, about 10&times;
-        smaller. Points are per-checkpoint values (best and final checkpoint of 3 seeds). &times; marks a value excluded as
-        an outlier. The purple arm, labelled "Gravity-ADR" in the figure, is the <em>fixed-range</em> gravity randomisation
-        (|g| ~ U[6, 14] m/s&sup2;), not the adaptive variant.
+        <b>Zero-shot task success on spatially harder variants</b> of each task (the object starts on a support at a new
+        height), current physics, stock Panda. Each expert was trained on its normal task and evaluated without fine-tuning.
+        Arms: Zero-G (ours), gravity domain randomisation with a fixed range (|g| ~ U[6, 14] m/s&sup2;), and adaptive
+        gravity randomisation (OpenAI-2019-style ADR, range 9.81 &plusmn; up to 4 m/s&sup2;). Bars: mean &plusmn; SEM over
+        3 seeds (circles), 100 episodes per evaluation. PushT and PlaceSphere (hatched) use the right axis. On PushCube and
+        RollBall the adaptive arm never widened its range (its policy did not reach the 80% boundary-success threshold),
+        so there it trained at normal gravity. <b>A wider, OpenAI-faithful ADR baseline</b> (separate lower/upper bounds,
+        able to reach 0&nbsp;g) <b>is training now</b> as a stronger comparison. Provisional: CPU-simulation evaluation;
+        PlaceSphere at 50M of a planned 150M training steps.
       </figcaption>
     </figure>
     <div class="finding">
-      <b>Observation.</b> Zero-G is ahead on PushCube (32.6% vs 26.8%), PickCube and PushT. Gravity-DR is ahead on LiftPeg
-      and PickSingleYCB. Apart from PushCube, absolute success on these targets is very low (0&ndash;6%). So this is a
-      motivating signal, not a result: these targets are hard for any expert trained only on the source task. That is part
-      of why the main claim rests on distilled policies (Q3) rather than on the experts alone.
+      <b>Observation.</b> Zero-G is ahead of both gravity-randomisation baselines on five of six tasks (RollBall 32.5% vs
+      18.8%, PullCube 16.7% vs 9.4%, PickCube 8.0% vs 5.2%), and behind adaptive ADR on PlaceSphere (4.4% vs 6.2%).
+      Absolute success is low for every policy, because these variants add a step none was trained for (bringing the
+      object down from its support to a table goal); the stage curves at the top of the page separate the spatial part,
+      where Zero-G reaches and grasps the object several times more often.
     </div>
     <details>
       <summary>Same comparison as test-time gravity varies (1.5, 3, 4.5 and 9.81 m/s&sup2;)</summary>
