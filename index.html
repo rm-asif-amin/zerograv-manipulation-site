@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Castoro&family=Noto+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="static/css/style.css?v=20261008b">
+  <link rel="stylesheet" href="static/css/style.css?v=20261009b">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='%232a78d6'/%3E%3Ccircle cx='16' cy='16' r='5' fill='white'/%3E%3C/svg%3E">
 </head>
 <body>
@@ -24,7 +24,7 @@
     <h1>Learning in <span class="accent">Zero Gravity</span>: Spatially Diverse Demonstrations for Robot Manipulation Policies</h1>
 
     <div class="authors">
-      <span>Asif Amin<sup>*1</sup></span>
+      <span><a href="https://scholar.google.com/citations?user=d04IKHkAAAAJ&amp;hl=en" target="_blank" rel="noopener">Asif Amin</a><sup>*1</sup></span>
       <span><a href="https://scholar.google.com/citations?user=cirHYboAAAAJ&amp;hl=en" target="_blank" rel="noopener">Litian Gong</a><sup>*1</sup></span>
       <span><a href="https://scholar.google.com/citations?user=1_f79vUAAAAJ&amp;hl=en" target="_blank" rel="noopener">Jiachen Li</a><sup>1,2</sup></span>
     </div>
@@ -45,12 +45,6 @@
       <a class="btn" href="#datasets">
         <svg viewBox="0 0 24 24"><path d="M12 2C7 2 3 3.8 3 6v12c0 2.2 4 4 9 4s9-1.8 9-4V6c0-2.2-4-4-9-4zm0 2c4.4 0 7 1.4 7 2s-2.6 2-7 2-7-1.4-7-2 2.6-2 7-2zm7 14c0 .6-2.6 2-7 2s-7-1.4-7-2v-2.3c1.6.8 4.2 1.3 7 1.3s5.4-.5 7-1.3zm0-5c0 .6-2.6 2-7 2s-7-1.4-7-2v-2.3c1.6.8 4.2 1.3 7 1.3s5.4-.5 7-1.3z"/></svg>Datasets
       </a>
-      <span class="btn disabled" title="Summary video not yet made">
-        <svg viewBox="0 0 24 24"><path d="M4 4h12v16H4zm13 5 5-3v12l-5-3z"/></svg>Video <span class="tag">soon</span>
-      </span>
-      <a class="btn" href="#bibtex-section">
-        <svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></svg>BibTeX
-      </a>
     </div>
 
     <div class="teaser-top">
@@ -58,12 +52,8 @@
       <video class="lazy" muted loop playsinline autoplay preload="none"
              poster="static/images/teaser_zg_tasks_poster.jpg" data-src="static/videos/teaser_zg_tasks.mp4"></video>
       <figcaption class="center">
-        <b>Zero-G experts on six tasks.</b> Ray-traced from the DROID-style rig's exterior camera (Franka arm,
-        Robotiq gripper). Objects start floating in mid-air, so their shadows sit apart from them; gravity switches on
-        when the robot touches or grasps them. Green rings mark goals that are otherwise invisible to the camera. Five
-        clips replay successful episodes from our released dataset; PickSingleYCB is a fresh rollout of the same expert,
-        because the dataset does not record which YCB object each episode used. Each clip plays at 2&times; speed up to
-        its first success, then holds.
+        <b>Zero Gravity experts on six tasks.</b> Objects start floating in mid-air; gravity switches on when the
+        robot touches or grasps them. Green rings mark goals. Ray-traced, 2&times; speed.
       </figcaption>
     </figure>
     </div>
@@ -75,22 +65,57 @@
       the experts to reach, push and grasp throughout 3D space instead of only near the table.
       In preliminary experiments these experts cover <b class="k">more of the workspace</b> than
       regular-gravity experts. We are now testing whether their demonstrations give imitation-learned
-      policies, including <b class="k">vision-language-action models (VLAs)</b>, better spatial generalisation.
+      policies, including <b class="k">vision-language-action models (VLAs)</b>, better spatial generalization.
     </div>
 
     <figure class="fig headline-result">
       <picture>
-        <source media="(max-width: 640px)" srcset="static/images/fig_stage_funnel_zg_narrow.png">
-        <img src="static/images/fig_stage_funnel_zg.png" alt="Six line charts, one per task, showing for each training arm the share of episodes that reached, touched, grasped or moved the object, and succeeded, when the object rests on a support at a new height. The Zero-G line sits far above the four gravity-trained baselines on five of six tasks." loading="lazy">
+        <source media="(max-width: 640px)" srcset="static/images/fig_stage_funnel_all_narrow.png">
+        <img src="static/images/fig_stage_funnel_all.png" alt="Six line charts, one per task, showing, for each training arm, the share of episodes that reached, touched, grasped or moved the object, and succeeded, when the object rests on a support at a random height. The Zero Gravity line sits above the four gravity-trained baselines on five of six tasks." loading="lazy">
       </picture>
       <figcaption>
-        <b>Headline result <span class="badge prelim">preliminary</span> &mdash; Zero-G explores the third dimension better.</b>
-        We compare our method against baselines on spatially difficult versions of the same tasks. Each point is the share of episodes that completed that stage and every
-        earlier one (mean &plusmn; SEM over 3 seeds). On five of six tasks the Zero-G policy reaches, touches and grasps
-        the object far more often than any gravity-trained baseline, including gravity randomisation; the baselines
-        mostly stop at the first stage. Full task success stays low for every policy, because these variants add a step
-        none was trained for (getting the object down from the support). Provisional numbers: CPU simulation,
-        100 episodes per evaluation.
+        <b>Headline result <span class="badge prelim">preliminary</span> &mdash; Zero Gravity explores the third dimension better.</b>
+        We compare our method against baselines on spatially difficult versions of the same tasks: the object starts on
+        a support at a random height, pooled over three height ranges (near the table, inside Zero Gravity's training
+        range, and above every arm's training range). Each point is the share of episodes that completed that stage and
+        every earlier one (mean &plusmn; SEM over 3 seeds). On five of six tasks the Zero Gravity policy reaches and touches
+        the object far more often than any gravity-trained baseline, including gravity randomization; on RollBall all arms
+        are level. Task success stays low for every policy, because these variants add a step none was trained for
+        (getting the object down from the support). Provisional numbers: CPU simulation, 100 episodes per height range
+        per evaluation.
+      </figcaption>
+    </figure>
+
+    <details class="by-range">
+      <summary>Breakdown by height range: where the advantage comes from</summary>
+      <figure class="fig" style="margin:0 0 14px">
+        <img src="static/images/fig_stage_funnel_low.png" alt="Stage curves for objects near the table: all arms perform similarly on most tasks" loading="lazy">
+        <figcaption><b>Near the table</b> (object center below 0.10 m). No arm trained on raised supports, but these are
+          close to table height, where every gravity-trained arm's objects rest. All arms perform similarly; Zero Gravity
+          is ahead only on PushCube.</figcaption>
+      </figure>
+      <figure class="fig" style="margin:0 0 14px">
+        <img src="static/images/fig_stage_funnel_mid.png" alt="Stage curves for objects inside Zero Gravity's training range: Zero Gravity far ahead on five of six tasks" loading="lazy">
+        <figcaption><b>Inside Zero Gravity's training range</b> (0.10&ndash;0.50 m; RollBall 0.10&ndash;0.35 m; PlaceSphere
+          0.10&ndash;0.31 m, the highest its cantilever support allows). Zero Gravity saw objects floating at these heights during training; the gravity-trained arms never
+          did. This is where the gap is largest.</figcaption>
+      </figure>
+      <figure class="fig" style="margin:0">
+        <img src="static/images/fig_stage_funnel_high.png" alt="Stage curves for objects above every arm's training range: only Zero Gravity reaches the object" loading="lazy">
+        <figcaption><b>Above every arm's training range</b> (above 0.50 m, up to the arm's reach; RollBall has no such
+          range). No arm trained here. Essentially only Zero Gravity reaches and touches the object (baselines at most 1%), though the band is narrow
+          (about 1 cm on PullCube, 4&ndash;8 cm on the other tasks) and task success is near zero (Zero Gravity 2% on
+          PickCube, 0% elsewhere).</figcaption>
+      </figure>
+    </details>
+
+    <figure class="fig headline-tiles">
+      <video class="lazy" muted loop playsinline autoplay preload="none"
+             poster="static/images/eval_tiles_poster.jpg" data-src="static/videos/eval_tiles_rt.mp4"></video>
+      <figcaption>
+        <b>Same layout, two policies.</b> Each column is one spatially difficult layout. The top row is the Zero Gravity
+        expert and the bottom row the Regular Gravity expert, on the same seed. Badges mark the furthest stage reached.
+        We picked layouts that show the difference; the curves above give the averages. Ray-traced.
       </figcaption>
     </figure>
 
@@ -101,8 +126,7 @@
       <a href="#environments">Environments</a>
       <a href="#results">Preliminary results</a>
       <a href="#datasets">Datasets</a>
-      <a href="#progress">In progress</a>
-      <a href="#bibtex-section">BibTeX</a>
+      <a href="#progress">Status</a>
     </nav>
   </div>
 </header>
@@ -133,9 +157,9 @@
       <div>
         <div class="n">3</div>
         <h4>Zero gravity as a spatial-diversity enhancer, beyond domain randomization</h4>
-        <p>We compare zero gravity with gravity domain randomization, both fixed range and adaptive (ADR, OpenAI 2019),
-          and with regular gravity with and without walls: same tasks, same PPO recipe, 3 seeds per arm.</p>
-        <span class="badge wip">in progress &middot; 120-run comparison running</span>
+        <p>We compare zero gravity with fixed-range gravity randomization (Gravity-DR), with OpenAI's automatic domain
+          randomization applied to gravity (Gravity-ADR (OpenAI)), and with regular gravity with and without walls: same tasks, same PPO recipe, 3 seeds per arm.</p>
+        <span class="badge done">done &middot; 6 tasks &times; 5 arms &times; 3 seeds</span>
       </div>
       <div>
         <div class="n">4</div>
@@ -143,7 +167,7 @@
         <p>To our knowledge, the first study of altered gravity as the main training regime for tabletop manipulation,
           rather than as a robustness perturbation, and of whether the resulting demonstrations improve imitation-learned
           policies and VLAs.</p>
-        <span class="badge wip">in progress &middot; VLA distillation next</span>
+        <span class="badge wip">in progress &middot; VLA distillation ongoing</span>
       </div>
     </div>
   </div>
@@ -171,13 +195,16 @@
       prevents the reward hacking we see in pure zero gravity and leaves the task itself unchanged.
     </p>
     <p>
-      We train reinforcement-learning (PPO) experts this way on 8 ManiSkill3 tasks, compare them with regular gravity and
-      with fixed and adaptive gravity randomization, and distill their success-filtered demonstrations into imitation
-      policies and VLAs. Preliminary results on a stock Franka Panda show that zero-gravity experts cover more of the
-      workspace than regular-gravity experts, with mixed but encouraging zero-shot transfer to harder spatial variants.
-      By distilling an expert trained on <span class="ph-text">[X]</span> zero-gravity episodes and evaluating on a set of
-      tabletop manipulation tasks, we observe an average of <span class="ph-text">[X]</span> improvement in task
-      performance compared to policies distilled from regular-gravity experts <span class="badge wip">distillation results pending</span>.
+      We train reinforcement-learning (PPO) experts this way on 8 ManiSkill3 tasks and compare them with regular gravity
+      and with fixed and adaptive (OpenAI-style) gravity randomization. On spatially harder versions of six tasks, where the
+      object rests on a support at a random height, zero-gravity experts on a stock Franka Panda reach the object in 66%
+      of episodes, against 34&ndash;36% for the regular-gravity and gravity-randomized baselines, and touch and grasp it
+      about 1.5&times; as often. The gap comes from raised objects. At heights inside the zero-gravity training range,
+      which the gravity-trained experts never saw, zero-gravity experts reach the object in 67% of episodes against
+      17&ndash;20% (3.4&times; the best baseline). Above every arm's training range, only zero-gravity experts reach the
+      object at all (48% of episodes against at most 0.1%). We are now
+      distilling these demonstrations into VLAs, and sim-to-real tests on a Franka Panda with a Robotiq gripper are
+      ongoing.
     </p>
 
   </div>
@@ -197,7 +224,7 @@
         <!-- stage boxes -->
         <g>
           <rect x="10" y="40" width="210" height="200" rx="12" fill="#e8f1fc" stroke="#2a78d6" stroke-width="1.5"/>
-          <text x="115" y="68" text-anchor="middle" font-size="13" font-weight="700" fill="#2a78d6">1 &middot; ZERO-G RL EXPERTS</text>
+          <text x="115" y="68" text-anchor="middle" font-size="13" font-weight="700" fill="#2a78d6">1 &middot; ZERO GRAVITY RL EXPERTS</text>
           <!-- walled volume with floating object -->
           <rect x="60" y="88" width="110" height="90" fill="none" stroke="#7aa7e0" stroke-dasharray="4 3"/>
           <line x1="40" y1="178" x2="190" y2="178" stroke="#a0773f" stroke-width="5"/>
@@ -221,7 +248,7 @@
           </g>
           <line x1="285" y1="178" x2="435" y2="178" stroke="#a0773f" stroke-width="5"/>
           <text x="360" y="204" text-anchor="middle" font-size="12" fill="#333">success-filtered, trimmed</text>
-          <text x="360" y="221" text-anchor="middle" font-size="12" fill="#333"><tspan fill="#2a78d6">&#9679;</tspan> zero-G  <tspan fill="#eb6834">&#9679;</tspan> regular gravity</text>
+          <text x="360" y="221" text-anchor="middle" font-size="12" fill="#333"><tspan fill="#2a78d6">&#9679;</tspan> zero gravity  <tspan fill="#eb6834">&#9679;</tspan> regular gravity</text>
         </g>
         <g>
           <rect x="500" y="40" width="210" height="200" rx="12" fill="#fff" stroke="#8a929c" stroke-width="1.2" stroke-dasharray="6 4"/>
@@ -231,7 +258,7 @@
           <path d="M605 128 v14" stroke="#8a929c" marker-end="url(#arr)"/>
           <rect x="545" y="146" width="120" height="34" rx="6" fill="#39414a"/>
           <text x="605" y="168" text-anchor="middle" font-size="12.5" fill="#fff">VLA (&#960;0.5) / DP</text>
-          <text x="605" y="204" text-anchor="middle" font-size="12" fill="#333">behaviour cloning</text>
+          <text x="605" y="204" text-anchor="middle" font-size="12" fill="#333">behavior cloning</text>
           <text x="605" y="221" text-anchor="middle" font-size="11.5" font-weight="700" fill="#9a6200">IN PROGRESS</text>
         </g>
         <g>
@@ -244,7 +271,7 @@
           <rect x="802" y="126" width="14" height="14" fill="#d64545"/>
           <circle cx="880" cy="98" r="6" fill="#3bb36b"/>
           <text x="847" y="204" text-anchor="middle" font-size="12" fill="#333">unseen heights / platforms</text>
-          <text x="847" y="221" text-anchor="middle" font-size="12" fill="#333">sim now &middot; hardware planned</text>
+          <text x="847" y="221" text-anchor="middle" font-size="12" fill="#333">sim now &middot; hardware ongoing</text>
         </g>
         <!-- arrows -->
         <path d="M222 140 H250" stroke="#8a929c" stroke-width="2" marker-end="url(#arr)"/>
@@ -282,14 +309,31 @@
       <table>
         <thead><tr><th>Training arm</th><th>Gravity during training</th><th class="c">3D spawn</th><th class="c">Walls</th></tr></thead>
         <tbody>
-          <tr><td><b>Zero-G</b> (ours)</td><td>0 until contact / grasp, then 9.81 m/s&sup2;</td><td class="c">&#10003;</td><td class="c">&#10003;</td></tr>
-          <tr><td>Regular gravity, walled</td><td>9.81 m/s&sup2;</td><td class="c">&#10003;</td><td class="c">&#10003;</td></tr>
-          <tr><td>Regular gravity, no walls</td><td>9.81 m/s&sup2;</td><td class="c">&#10003;</td><td class="c">&ndash;</td></tr>
+          <tr><td><b>Zero Gravity</b> (ours)</td><td>0 until contact / grasp, then 9.81 m/s&sup2;</td><td class="c">&#10003;</td><td class="c">&#10003;</td></tr>
+          <tr><td>Regular Gravity, walled</td><td>9.81 m/s&sup2;</td><td class="c">&#10003;</td><td class="c">&#10003;</td></tr>
+          <tr><td>Regular Gravity, no walls</td><td>9.81 m/s&sup2;</td><td class="c">&#10003;</td><td class="c">&ndash;</td></tr>
           <tr><td>Gravity-DR (fixed range)</td><td>|g| ~ U[6, 14] m/s&sup2; per episode, straight down</td><td class="c">&#10003;</td><td class="c">&#10003;</td></tr>
-          <tr><td>Gravity-ADR (adaptive)</td><td>|g| = 9.81 &plusmn; r, with r widened by automatic domain randomisation (OpenAI 2019, magnitude-only)</td><td class="c">&#10003;</td><td class="c">&#10003;</td></tr>
+          <tr><td>Gravity-ADR (OpenAI)</td><td>|g| = 9.81 &plusmn; &phi;, with &phi; &le; 4 m/s&sup2; widened by automatic domain randomization</td><td class="c">&#10003;</td><td class="c">&#10003;</td></tr>
+          <tr><td>Gravity-ADR wide (OpenAI) <span class="badge wip">training</span></td><td>|g| &isin; [9.81 &minus; &phi;<sub>L</sub>, 9.81 + &phi;<sub>H</sub>], each bound widened separately up to 9.81 m/s&sup2; (can reach 0&nbsp;g)</td><td class="c">&#10003;</td><td class="c">&#10003;</td></tr>
         </tbody>
       </table>
     </div>
+
+    <h3>How the Gravity-ADR (OpenAI) arms work</h3>
+    <p>
+      Automatic domain randomization (ADR) comes from OpenAI et al. (2019), <em>Solving Rubik's Cube with a Robot
+      Hand</em>. Training starts with no randomization, and the range widens only once the policy can handle its edge.
+      Half of all episodes are &ldquo;boundary&rdquo; episodes, with gravity set exactly at the current edge of the range.
+      After 240 boundary episodes the range widens by one step if success at the edge is at least 80%, and narrows if it
+      is below 40%. Gravity always points down; only its magnitude changes.
+    </p>
+    <ul>
+      <li><b>Gravity-ADR (OpenAI)</b>: one symmetric range, 9.81 &plusmn; &phi; with &phi; capped at 4 m/s&sup2;, so it ends
+        at the fixed arm's 6&ndash;14 m/s&sup2;. Step 0.25 m/s&sup2;.</li>
+      <li><b>Gravity-ADR wide (OpenAI)</b>: closer to the paper, with separate lower and upper bounds (&phi;<sub>L</sub>,
+        &phi;<sub>H</sub>), each widened on its own, up to 9.81 m/s&sup2;. The range can therefore reach zero gravity,
+        which tests whether ADR finds what Zero Gravity training gets by design. Step 0.1 m/s&sup2;.</li>
+    </ul>
   </div>
 </section>
 
@@ -299,18 +343,17 @@
     <h2>Environments</h2>
     <p class="center muted" style="max-width:780px;margin:0 auto 18px">
       Eight ManiSkill3 tasks (StackCube and PokeCube planned), each shown under four of the training arms.
-      Pick a task to see what happens to the object when <b>the robot does nothing</b>: in Zero-G the object keeps
-      floating (and may drift and bounce off the invisible walls); under regular gravity it falls to the table.
+      Pick a task to see what happens to the object when <b>the robot does nothing</b>: in Zero Gravity the object keeps
+      floating (and may drift and bounce off the invisible walls); under Regular Gravity it falls to the table.
     </p>
     <div class="tabs" id="task-tabs" role="tablist" aria-label="Task"></div>
     <div class="task-desc" id="task-desc"></div>
     <div class="arm-grid" id="arm-grid"></div>
     <figcaption style="margin-top:12px">
       <b>What these clips are.</b> Zero-action rollouts (no policy), stock Franka Panda, seed 0, so every arm starts
-      from the same spawn. Rendered with ManiSkill's default rasteriser for checking the environments before training; these
-      are not ray-traced. The coloured box edges show the containment walls for visualisation only, since the walls are
-      invisible to cameras during training. The Gravity-ADR (adaptive) arm is not shown separately: its gravity range
-      starts at zero width, so at the start of training it looks the same as "regular gravity, walled".
+      from the same spawn. Rendered with ManiSkill's default rasterizer, not ray-traced. The colored box edges show the containment walls for visualization only; cameras do not see them during training.
+      The Gravity-ADR (OpenAI) arms are not shown: their gravity range starts at zero width, so they begin identical
+      to Regular Gravity, walled.
     </figcaption>
   </div>
 </section>
@@ -319,75 +362,72 @@
 <section id="results">
   <div class="container">
     <h2>Preliminary results <span class="badge prelim">preliminary</span></h2>
-    <div class="callout">
-      The figures below come from an <b>earlier experiment batch on the stock Panda</b>. Those experts were trained on
-      older physics (object restitution 0.9, and multi-shape objects not fully contained by the walls). Both have since
-      been fixed, and the batch is being re-run on current code (see <a href="#progress">In progress</a>). Expect the
-      numbers to change.
-    </div>
-
-    <p class="rq">Q1 &middot; Expert behaviour</p>
+    <p class="rq">Q1 &middot; Expert behavior</p>
     <h3>Do zero-gravity experts explore more of the workspace?</h3>
     <figure class="fig">
-      <img src="static/images/fig_spatial_exploration_2panel.png" alt="Two bar-chart panels comparing Zero-G, Stock unwalled, Vanilla walled and Vanilla walled matched arms on PushCube, PickCube, PushT and LiftPeg for unique object states and end-effector convex hull volume" loading="lazy">
+      <img src="static/images/fig_policy_diversity.png" alt="Two grouped bar charts over six tasks for five training arms: gripper workspace coverage (distinct 2 cm voxels visited) and trajectory diversity (mean pairwise gripper-path distance)" loading="lazy">
       <figcaption>
-        <b>Spatial coverage during evaluation rollouts</b>, four tasks, four arms (stock Panda, older physics). Metrics:
-        number of unique (discretised) object states visited, and the convex-hull volume swept by the end effector (TCP). Each value is averaged over the evaluations up to the run's best
-        checkpoint; bars show mean &plusmn; SEM across seeds. The arm labels in this figure are older names.
-        "Stock (unwalled)" is the unmodified task with table spawns. "Vanilla (walled, matched)" is regular gravity with the
-        same walls and 3D spawn as Zero-G, so it is the closest control.
+        <b>Policy-level spatial diversity</b>, every arm on the same spatially harder tasks and the same layouts (stock
+        Franka Panda; 50 episodes per height range, 3 seeds; mean &plusmn; SEM over seeds). Left: gripper workspace coverage,
+        the number of distinct 2 cm cells the gripper visits. Right: trajectory diversity, the mean distance between the
+        gripper paths of every pair of episodes, so it is high when the policy moves differently for different layouts.
+        Gravity is on for every arm here, so objects do not drift on their own: differences come from the policies.
       </figcaption>
     </figure>
     <div class="finding">
-      <b>Observation.</b> Zero-G has the most unique object states on all four tasks and the largest end-effector hull
-      volume on three of the four (LiftPeg: walled vanilla is higher, with a large error bar). Part of the gap to the "stock" arm comes from the 3D spawn itself, which is why the
-      matched arm is the fair comparison.
+      <b>Observation.</b> On average, Zero Gravity's gripper paths are the most varied on all six tasks and cover the most
+      space on five (Regular Gravity, walled is slightly ahead on PushCube). On RollBall the arms overlap within error on
+      both measures. Zero Gravity
+      policies adapt where they go to each layout. Diversity is not competence on its own: the stage curves above show
+      that these varied paths also reach and touch the object more often.
     </div>
 
     <p class="rq">Q2 &middot; Expert-level spatial transfer</p>
     <h3>Do zero-gravity experts transfer zero-shot to harder spatial layouts?</h3>
     <figure class="fig">
-      <img src="static/images/fig_spatial_transfer_bar_3arms.png" alt="Grouped bar chart of zero-shot task success for Zero-G, fixed-range gravity randomisation and adaptive gravity randomisation on six spatially harder task variants" loading="lazy">
+      <img src="static/images/fig_spatial_transfer_bar_3arms.png" alt="Grouped bar chart of zero-shot task success for Zero Gravity, Gravity-DR (fixed) and Gravity-ADR (OpenAI) on six spatially harder task variants" loading="lazy">
       <figcaption>
-        <b>Zero-shot task success on spatially harder variants</b> of each task (the object starts on a support at a new
-        height), current physics, stock Panda. Each expert was trained on its normal task and evaluated without fine-tuning.
-        Arms: Zero-G (ours), gravity domain randomisation with a fixed range (|g| ~ U[6, 14] m/s&sup2;), and adaptive
-        gravity randomisation (OpenAI-2019-style ADR, range 9.81 &plusmn; up to 4 m/s&sup2;). Bars: mean &plusmn; SEM over
-        3 seeds (circles), 100 episodes per evaluation. PushT and PlaceSphere (hatched) use the right axis. On PushCube and
-        RollBall the adaptive arm never widened its range (its policy did not reach the 80% boundary-success threshold),
-        so there it trained at normal gravity. <b>A wider, OpenAI-faithful ADR baseline</b> (separate lower/upper bounds,
+        <b>Zero-shot task success on spatially harder variants</b> of each task (the object starts on a support at a random
+        height, pooled over the same three height ranges as the stage curves above), stock Panda. Each expert was trained on its normal task and evaluated without fine-tuning.
+        Arms: Zero Gravity (ours), Gravity-DR with a fixed range (|g| ~ U[6, 14] m/s&sup2;), and Gravity-ADR (OpenAI)
+        (range 9.81 &plusmn; up to 4 m/s&sup2;). Bars: mean &plusmn; SEM over
+        3 seeds (circles), 100 episodes per height range per seed. PushT and PlaceSphere (hatched) use the right axis. The Gravity-ADR (OpenAI) arm widens its range only when boundary success reaches 80%. It reached the full
+        &plusmn;4 m/s&sup2; on PickCube, PullCube and PushT; on PushCube and RollBall it reached at most 0.5&ndash;1 m/s&sup2;,
+        and on PlaceSphere two of three seeds shrank back to zero. On those three tasks it therefore ended training at, or
+        close to, regular gravity. The two Regular Gravity arms are in the stage curves above; on PullCube,
+        Regular Gravity, walled matches Zero Gravity (16.8% vs 16.7%), and on PlaceSphere it is highest (7.0%). <b>Gravity-ADR wide (OpenAI)</b> (separate lower and upper bounds,
         able to reach 0&nbsp;g) <b>is training now</b> as a stronger comparison. Provisional: CPU-simulation evaluation;
         PlaceSphere at 50M of a planned 150M training steps.
       </figcaption>
     </figure>
     <div class="finding">
-      <b>Observation.</b> Zero-G is ahead of both gravity-randomisation baselines on five of six tasks (RollBall 32.5% vs
-      18.8%, PullCube 16.7% vs 9.4%, PickCube 8.0% vs 5.2%), and behind adaptive ADR on PlaceSphere (4.4% vs 6.2%).
+      <b>Observation.</b> Zero Gravity is ahead of both gravity-randomization baselines on average on five of six tasks
+      (RollBall 32.5% vs 18.8%, PullCube 16.7% vs 9.4%, PickCube 8.0% vs 5.2%) and behind Gravity-ADR (OpenAI) on
+      PlaceSphere (4.4% vs 6.2%). Only the RollBall gap (and PushT, at about 1%) is clear of seed-to-seed noise: its
+      95% bootstrap interval excludes zero against every arm; on the other tasks it does not.
       Absolute success is low for every policy, because these variants add a step none was trained for (bringing the
       object down from its support to a table goal); the stage curves at the top of the page separate the spatial part,
-      where Zero-G reaches and grasps the object several times more often.
+      where Zero Gravity reaches and touches the object far more often, most of all on raised objects.
     </div>
     <details>
       <summary>Same comparison as test-time gravity varies (1.5, 3, 4.5 and 9.81 m/s&sup2;)</summary>
       <figure class="fig" style="margin:0">
-        <img src="static/images/fig_gravity_sweep.png" alt="Four-panel version of the transfer bar chart at different test-time gravity values" loading="lazy">
-        <figcaption>The same experts evaluated at four test-time gravity values; three of them lie outside the DR training
-          range. The ranking between arms barely changes across gravity values. Same caveats as above.</figcaption>
+        <img src="static/images/fig_gravity_sweep.png" alt="Four panels of the zero-shot success bar chart, one per test-time gravity value (1.5, 3, 4.5 and 9.81 m/s squared), for Zero Gravity, Gravity-DR (fixed) and Gravity-ADR (OpenAI)" loading="lazy">
+        <figcaption>The same three arms evaluated at four test-time gravity values; three of them lie outside the
+          Gravity-DR training range. On average, Zero Gravity stays ahead on PickCube, PushT and RollBall at every value, Gravity-ADR
+          (OpenAI) stays ahead on PlaceSphere, and PushCube and PullCube change order between values. Same caveats as
+          above.</figcaption>
       </figure>
     </details>
 
     <p class="rq">Q3 &middot; Distillation (headline experiment)</p>
-    <h3>Do zero-gravity demonstrations give policies and VLAs better spatial generalisation?</h3>
-    <div class="placeholder wide">
-      <strong>Placeholder: no result yet</strong>
-      Planned: fine-tune &pi;<sub>0.5</sub> (and/or a diffusion policy) on equal-sized, success-filtered demonstration sets
-      from each arm, with data scaling (e.g. 100 / 500 / 1000 demos) and 3 seeds. Evaluate in distribution and on the
-      spatial targets, and test whether each dataset's measured spatial coverage predicts transfer.
-    </div>
-    <div class="pair" style="margin-top:14px">
-      <div class="placeholder square"><strong>Placeholder video</strong>VLA trained on Zero-G demos, rollout on a spatial target</div>
-      <div class="placeholder square"><strong>Placeholder video</strong>VLA trained on regular-gravity demos, same target</div>
-    </div>
+    <h3>Do zero-gravity demonstrations give policies and VLAs better spatial generalization?</h3>
+    <p>
+      <span class="badge wip">in progress</span> We are fine-tuning &pi;<sub>0.5</sub> on equal-sized, success-filtered
+      demonstration sets from each training arm (100, 500 and 1,000 demonstrations, 3 seeds), and evaluating in
+      distribution and on the spatially harder variants above. We also test whether each dataset's measured spatial
+      coverage predicts how well the distilled policy transfers.
+    </p>
   </div>
 </section>
 
@@ -409,39 +449,34 @@
       </div>
       <div class="card">
         <h4>Regular-gravity control (state, v1)</h4>
-        <p>Same 8 tasks, gravity always on ("vanilla-matched" envs).</p>
+        <p>Same 8 tasks, gravity always on.</p>
         <a href="https://huggingface.co/datasets/stray-light/zerograv-manipulation-regular-gravity-trajectories-state-v1" target="_blank" rel="noopener"><code>stray-light/zerograv-manipulation-regular-gravity-trajectories-state-v1</code></a>
       </div>
     </div>
-    <div class="callout">
-      <b>Known issues, documented on the dataset cards:</b> the zero-gravity PullCube episodes were collected under a
-      simulation bug. The five tasks collected before 30 Sep 2026 use object restitution 0.9 instead of ManiSkill's 0.0.
-      Experts are single-seed, and some checkpoints come from runs that were still training. Image-observation datasets are
-      not yet rendered.
-    </div>
+    <p class="muted">Known issues are documented on each dataset card.</p>
 
     <h3>Sample demonstrations: PushT, zero gravity vs regular gravity</h3>
     <div class="pair">
       <figure>
         <video class="lazy" muted loop playsinline preload="none" poster="static/videos/demos/pusht_droid_zg_typical_ep0_firstsucc143.jpg" data-src="static/videos/demos/pusht_droid_zg_typical_ep0_firstsucc143.mp4"></video>
-        <figcaption><b>Zero gravity</b> (on contact): the tee floats until touched.</figcaption>
+        <figcaption><b>Zero Gravity</b> (on contact): the tee floats until touched.</figcaption>
       </figure>
       <figure>
         <video class="lazy" muted loop playsinline preload="none" poster="static/videos/demos/pusht_droid_vm_typical_ep0_firstsucc167.jpg" data-src="static/videos/demos/pusht_droid_vm_typical_ep0_firstsucc167.mp4"></video>
-        <figcaption><b>Regular gravity</b>: the tee drops onto the table first.</figcaption>
+        <figcaption><b>Regular Gravity</b>: the tee drops onto the table first.</figcaption>
       </figure>
       <figure>
         <video class="lazy" muted loop playsinline preload="none" poster="static/videos/demos/pusht_droid_zg_typical_ep1_firstsucc226.jpg" data-src="static/videos/demos/pusht_droid_zg_typical_ep1_firstsucc226.mp4"></video>
-        <figcaption>Zero gravity, another episode</figcaption>
+        <figcaption>Zero Gravity, another episode</figcaption>
       </figure>
       <figure>
         <video class="lazy" muted loop playsinline preload="none" poster="static/videos/demos/pusht_droid_vm_typical_ep1_firstsucc158.jpg" data-src="static/videos/demos/pusht_droid_vm_typical_ep1_firstsucc158.mp4"></video>
-        <figcaption>Regular gravity, another episode</figcaption>
+        <figcaption>Regular Gravity, another episode</figcaption>
       </figure>
     </div>
     <figcaption class="center" style="max-width:760px;margin:10px auto 0">
       Replays of recorded episodes from the two released datasets: the DROID-style robot, trimmed shortly after the first
-      success (every second frame shown). Rendered with the default rasteriser. Wall edges are drawn for visualisation only.
+      success (every second frame shown). Rendered with the default rasterizer. Wall edges are drawn for visualization only.
     </figcaption>
   </div>
 </section>
@@ -449,48 +484,22 @@
 <!-- ================= IN PROGRESS ================= -->
 <section id="progress">
   <div class="container">
-    <h2>In progress</h2>
+    <h2>Status</h2>
     <ul class="status">
-      <li><span class="badge wip">running</span><div><b>5-arm, 8-task comparison on the stock Panda.</b> 8 tasks &times; 5 arms
-        (Zero-G, regular gravity walled and without walls, Gravity-DR fixed, Gravity-ADR adaptive) &times; 3 seeds =
-        120 PPO training runs on current physics. This batch replaces the preliminary results above.</div></li>
-      <li><span class="badge wip">next</span><div><b>Spatial-transfer targets for all tasks.</b> Raised platforms and elevated
-        spawns already exist for 5 tasks. PullCube, PlaceSphere and RollBall are next, then StackCube and PokeCube (10 tasks in total).</div></li>
-      <li><span class="badge wip">planned</span><div><b>DROID-style robot.</b> The same comparison on a Franka + Robotiq setup that
-        mirrors our lab's hardware (the released datasets already use it).</div></li>
-      <li><span class="badge wip">planned</span><div><b>Distillation into a VLA.</b> Fine-tune &pi;<sub>0.5</sub> on rendered
-        image demonstrations from each arm, at an equal frame budget, and evaluate in distribution and on the spatial targets.
-        The pipeline exists, but the image datasets still need to be rendered.</div></li>
-      <li><span class="badge wip">planned</span><div><b>Hardware.</b> A small zero-shot sim-to-real evaluation on the
-        DROID-style rig.</div></li>
-      <li><span class="badge done">done</span><div><b>Released datasets</b> (above), per-environment gravity control on
-        the GPU simulator, and walled 3D-spawn versions of 8 tasks.</div></li>
+      <li><span class="badge wip">ongoing</span><div><b>Distillation into a VLA.</b> Fine-tuning &pi;<sub>0.5</sub> on
+        image demonstrations from each training arm at an equal data budget, evaluated in distribution and on the spatially
+        harder variants.</div></li>
+      <li><span class="badge wip">ongoing</span><div><b>Sim-to-real.</b> Zero-shot evaluation on a Franka Panda with a
+        Robotiq gripper, the DROID-style setup in our lab.</div></li>
+      <li><span class="badge done">done</span><div><b>Zero-gravity training</b> with selective containment volumes and
+        gravity on contact or grasp, for 8 ManiSkill3 tasks on two robots (stock Franka Panda and a DROID-style Franka +
+        Robotiq setup).</div></li>
+      <li><span class="badge done">done</span><div><b>Five-arm comparison on the stock Panda.</b> Zero Gravity, Regular
+        Gravity with and without walls, Gravity-DR (fixed) and Gravity-ADR (OpenAI), 3 seeds each, on six tasks.</div></li>
+      <li><span class="badge done">done</span><div><b>Spatially harder evaluation variants</b> for every task: objects on
+        platforms, columns and cantilevers at heights inside and above the training range.</div></li>
+      <li><span class="badge done">done</span><div><b>Released datasets</b> (above).</div></li>
     </ul>
-  </div>
-</section>
-
-<!-- ================= BIBTEX ================= -->
-<section id="bibtex-section">
-  <div class="container">
-    <h2>BibTeX</h2>
-    <div class="bib">
-      <button class="copy" id="copy-bib" type="button">Copy</button>
-<pre id="bibtex">@misc{zerograv2026,
-  title  = {Learning in Zero Gravity: Spatially Diverse Demonstrations
-            for Robot Manipulation Policies},
-  author = {Amin, Asif and Gong, Litian and Li, Jiachen},
-  year   = {2026},
-  note   = {Work in progress. Placeholder entry; no paper yet.}
-}</pre>
-    </div>
-  </div>
-</section>
-
-<!-- ================= CONTACT ================= -->
-<section id="contact">
-  <div class="container center">
-    <h2>Contact</h2>
-    <p>Questions or interest in collaborating: <span class="ph-text">contact@example.com</span></p>
   </div>
 </section>
 
@@ -504,6 +513,6 @@
   </div>
 </footer>
 
-<script src="static/js/main.js"></script>
+<script src="static/js/main.js?v=20261009a"></script>
 </body>
 </html>

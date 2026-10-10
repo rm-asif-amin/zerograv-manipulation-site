@@ -234,3 +234,14 @@ footer { border-top: 1px solid var(--line); margin-top: 40px; padding: 24px 0 40
 .headline-result { max-width: 820px; margin: 48px auto 30px; padding: 12px 14px 14px; }
 .headline-result img { width: 100%; height: auto; }
 .headline-result figcaption { text-align: left; font-size: 14px; margin-top: 10px; }
+
+/* >>> headline-tiles (2026-10-09) >>> */
+.headline-tiles { max-width: 980px; margin: 0 auto 30px; padding: 10px; }
+.headline-tiles video { width: 100%; aspect-ratio: 3 / 1; border-radius: 8px; background: #000; }
+.headline-tiles figcaption { text-align: left; font-size: 14px; margin-top: 10px; }
+/* <<< headline-tiles <<< */
+
+/* >>> by-range (2026-10-09) >>> */
+details.by-range { max-width: 820px; margin: -14px auto 30px; background: #fff; }
+details.by-range figcaption { text-align: left; font-size: 14px; margin-top: 8px; }
+/* <<< by-range <<< */

@@ -31,9 +31,9 @@
 
   // ---------- environment gallery ----------
   var ARMS = [
-    { key: "zerograv", name: "Zero-G", note: "gravity off until contact / grasp" },
-    { key: "vanilla_walled", name: "Regular gravity, walled", note: "same 3D spawn + walls" },
-    { key: "vanilla_nowall", name: "Regular gravity, no walls", note: "same 3D spawn" },
+    { key: "zerograv", name: "Zero Gravity", note: "gravity off until contact / grasp" },
+    { key: "vanilla_walled", name: "Regular Gravity, walled", note: "same 3D spawn + walls" },
+    { key: "vanilla_nowall", name: "Regular Gravity, no walls", note: "same 3D spawn" },
     { key: "gravity_dr_fixed", name: "Gravity-DR (fixed)", note: "|g| ~ U[6, 14] m/s²" }
   ];
   var TASKS = {
@@ -80,7 +80,7 @@
         media = '<video class="lazy" muted loop playsinline preload="none" poster="' + base + '.jpg" data-src="' + base + '.mp4"></video>';
       }
       html += "<figure>" + media + "<figcaption><b>" + esc(a.name) + "</b>" + esc(a.note) +
-        '<br><span class="envid">' + esc(t.ids[i]) + "</span></figcaption></figure>";
+        "</figcaption></figure>";  // env IDs hidden (2026-10-09): legacy names like GravityADR-v1 mislabel the fixed-DR arm
     });
     gridEl.innerHTML = html;
     observeAll(gridEl);
