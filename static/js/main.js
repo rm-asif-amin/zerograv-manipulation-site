@@ -42,7 +42,7 @@
     pickcube: { label: "PickCube", desc: "Grasp a cube and move it to a 3D goal (green marker).",
       ids: ["PickCube-ZeroGrav-OnContact-v1", "PickCube-Vanilla-Walled-Matched-v1", "PickCube-Vanilla-NoWall-Matched-v1", "PickCube-GravityADR-v1"] },
     liftpeg: { label: "LiftPeg", desc: "Grasp a lying peg and stand it upright.",
-      ids: ["LiftPeg-ZeroGrav-OnGrasp-Fixed-WallFix-v1", "LiftPeg-Vanilla-Walled-Matched-v1", "LiftPeg-Vanilla-NoWall-Matched-v1", "LiftPeg-GravityADR-v1"] },
+      ids: ["LiftPeg-ZeroGrav-OnTouch-Gated-v1", "LiftPeg-Vanilla-Walled-Matched-v1", "LiftPeg-Vanilla-NoWall-Matched-v1", "LiftPeg-GravityADR-v1"] },
     picksingleycb: { label: "PickSingleYCB", desc: "Grasp a YCB household object and move it to a 3D goal.",
       ids: ["PickSingleYCB-ZeroGrav-OnGrasp-v1", "PickSingleYCB-Vanilla-Walled-Matched-v1", "PickSingleYCB-Vanilla-NoWall-Matched-v1", "PickSingleYCB-GravityADR-v1"] },
     pullcube: { label: "PullCube", desc: "Pull a cube back toward the robot, onto a target region.",
