@@ -53,7 +53,7 @@
              poster="static/images/teaser_zg_tasks_poster.jpg?v=20261021" data-src="static/videos/teaser_zg_tasks.mp4?v=20261021"></video>
       <figcaption class="center">
         <b>Zero Gravity experts on six tasks.</b> Objects start floating in mid-air; gravity switches on when the
-        robot touches or grasps them. Green rings mark goals. Ray-traced, 2&times; speed.
+        robot touches or grasps them. Green rings mark goals. 2&times; speed.
       </figcaption>
     </figure>
     </div>
@@ -69,7 +69,7 @@
     </div>
 
     <figure class="fig headline-result">
-      <img src="static/images/fig_stages_by_task.png?v=20261022" alt="Six line charts, one per task, showing for each training arm the share of episodes that reached, touched, grasped or moved the object, and succeeded, when the object rests on a support at a random height. The Zero Gravity line sits above the four gravity-trained baselines on five of six tasks." loading="lazy">
+      <img src="static/images/fig_stages_by_task.png?v=20261022b" alt="Six line charts, one per task, showing for each training arm the share of episodes that reached, touched, grasped or moved the object, and succeeded, when the object rests on a support at a random height. The Zero Gravity line sits above the four gravity-trained baselines on five of six tasks." loading="lazy">
       <figcaption>
         <b>Headline result &mdash; Zero Gravity explores the third dimension better.</b>
         We compare our method against baselines on spatially harder versions of the same tasks: the object starts on a
@@ -84,7 +84,7 @@
     <details class="by-range">
       <summary>Breakdown by object height: where the advantage comes from</summary>
       <figure class="fig" style="margin:0">
-        <img src="static/images/fig_fig1_stages.png?v=20261022" alt="Three line charts: reach, touch, and grasp or move rates against object height. Zero Gravity declines gradually; the gravity-trained baselines collapse above about 0.20 m." loading="lazy">
+        <img src="static/images/fig_fig1_stages.png?v=20261022b" alt="Three line charts: reach, touch, and grasp or move rates against object height. Zero Gravity declines gradually; the gravity-trained baselines collapse above about 0.20 m." loading="lazy">
         <figcaption>Averaged over the six tasks, in equal 10&nbsp;cm height bins (error bars: SEM over tasks). Near the table
           (below 0.10&nbsp;m) all arms are similar. From about 0.20&nbsp;m up, every gravity-trained baseline collapses,
           including fixed and adaptive gravity randomization; Zero Gravity degrades gradually, also above its
@@ -98,7 +98,7 @@
       <figcaption>
         <b>Same layout, two policies.</b> Each column is one spatially difficult layout. The top row is the Zero Gravity
         expert and the bottom row the Regular Gravity expert, on the same seed. Badges mark the furthest stage reached.
-        We picked layouts that show the difference; the curves above give the averages. Ray-traced.
+        We picked layouts that show the difference; the curves above give the averages.
       </figcaption>
     </figure>
 
@@ -182,12 +182,12 @@
     <p>
       We train reinforcement-learning (PPO) experts this way on 8 ManiSkill3 tasks and compare them with regular gravity
       and with fixed and adaptive (OpenAI-style) gravity randomization. On spatially harder versions of six tasks, where the
-      object rests on a support at a random height, zero-gravity experts on a stock Franka Panda reach the object in 68%
-      of episodes, against 25&ndash;28% for the regular-gravity and gravity-randomized baselines, and touch and grasp or
-      move it about twice as often. The gap comes from raised objects. At heights inside the zero-gravity training range,
-      which the gravity-trained experts never saw, zero-gravity experts reach the object in 68% of episodes against
-      17&ndash;20% (3.4&times; the best baseline). Above every arm's training range, the baselines almost never reach the
-      object (at most 0.3% of episodes), while zero-gravity experts still reach it in 41%. We are now
+      object rests on a support at a random height, zero-gravity experts on a stock Franka Panda reach the object in 80%
+      of episodes, against 37&ndash;40% for the regular-gravity and gravity-randomized baselines, and touch and grasp or
+      move it about twice as often too. The gap comes from raised objects. At heights inside the zero-gravity training range,
+      which the gravity-trained experts never saw, zero-gravity experts reach the object in 79% of episodes against
+      30&ndash;33% (2.4&times; the best baseline). Above every arm's training range, the baselines rarely reach the
+      object (at most 3% of episodes), while zero-gravity experts still reach it in 54%. We are now
       distilling these demonstrations into VLAs, and sim-to-real tests on a Franka Panda with a Robotiq gripper are
       ongoing.
     </p>
@@ -337,7 +337,7 @@
     <div class="arm-grid" id="arm-grid"></div>
     <figcaption style="margin-top:12px">
       <b>What these clips are.</b> Zero-action rollouts (no policy), stock Franka Panda, seed 0, so every arm starts
-      from the same spawn. Rendered with ManiSkill's default rasterizer, not ray-traced. The colored box edges show the containment walls for visualization only; cameras do not see them during training.
+      from the same spawn. Rendered with ManiSkill's default rasterizer. The colored box edges show the containment walls for visualization only; cameras do not see them during training.
       The Gravity-ADR (OpenAI) arms are not shown: their gravity range starts at zero width, so they begin identical
       to Regular Gravity, walled.
     </figcaption>
@@ -371,7 +371,7 @@
     <p class="rq">Q2 &middot; Expert-level spatial transfer</p>
     <h3>Do zero-gravity experts transfer zero-shot to harder spatial layouts?</h3>
     <figure class="fig">
-      <img src="static/images/fig_success_by_task.png?v=20261022" alt="Bar charts of zero-shot task success for five training arms on six spatially harder task variants, in two panels with separate scales." loading="lazy">
+      <img src="static/images/fig_success_by_task.png?v=20261022b" alt="Bar charts of zero-shot task success for five training arms on six spatially harder task variants, in two panels with separate scales." loading="lazy">
       <figcaption>
         <b>Zero-shot task success on spatially harder variants</b> of each task (the object starts on a support at a height
         drawn uniformly over the arm's reach), stock Panda. Each expert was trained on its normal task and evaluated without
