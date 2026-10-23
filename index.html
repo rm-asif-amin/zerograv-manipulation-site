@@ -69,43 +69,26 @@
     </div>
 
     <figure class="fig headline-result">
-      <picture>
-        <source media="(max-width: 640px)" srcset="static/images/fig_stage_funnel_all_narrow.png">
-        <img src="static/images/fig_stage_funnel_all.png" alt="Six line charts, one per task, showing, for each training arm, the share of episodes that reached, touched, grasped or moved the object, and succeeded, when the object rests on a support at a random height. The Zero Gravity line sits above the four gravity-trained baselines on five of six tasks." loading="lazy">
-      </picture>
+      <img src="static/images/fig_stages_by_task.png?v=20261022" alt="Six line charts, one per task, showing for each training arm the share of episodes that reached, touched, grasped or moved the object, and succeeded, when the object rests on a support at a random height. The Zero Gravity line sits above the four gravity-trained baselines on five of six tasks." loading="lazy">
       <figcaption>
-        <b>Headline result <span class="badge prelim">preliminary</span> &mdash; Zero Gravity explores the third dimension better.</b>
-        We compare our method against baselines on spatially difficult versions of the same tasks: the object starts on
-        a support at a random height, pooled over three height ranges (near the table, inside Zero Gravity's training
-        range, and above every arm's training range). Each point is the share of episodes that completed that stage and
-        every earlier one (mean &plusmn; SEM over 3 seeds). On five of six tasks the Zero Gravity policy reaches and touches
-        the object far more often than any gravity-trained baseline, including gravity randomization; on RollBall all arms
-        are level. Task success stays low for every policy, because these variants add a step none was trained for
-        (getting the object down from the support). Provisional numbers: CPU simulation, 100 episodes per height range
-        per evaluation.
+        <b>Headline result &mdash; Zero Gravity explores the third dimension better.</b>
+        We compare our method against baselines on spatially harder versions of the same tasks: the object starts on a
+        support at a height drawn uniformly over the arm's reach (about 0.05&ndash;0.58&nbsp;m). Each point is the share of
+        episodes that completed that stage and every earlier one (mean &plusmn; SEM over 3 seeds, 500 episodes per seed).
+        On five of six tasks the Zero Gravity policy reaches and touches the object far more often than any gravity-trained
+        baseline, including gravity randomization; on RollBall the arms are close. Task success stays low for every policy,
+        because these variants add a step none was trained for (getting the object down from the support).
       </figcaption>
     </figure>
 
     <details class="by-range">
-      <summary>Breakdown by height range: where the advantage comes from</summary>
-      <figure class="fig" style="margin:0 0 14px">
-        <img src="static/images/fig_stage_funnel_low.png" alt="Stage curves for objects near the table: all arms perform similarly on most tasks" loading="lazy">
-        <figcaption><b>Near the table</b> (object center below 0.10 m). No arm trained on raised supports, but these are
-          close to table height, where every gravity-trained arm's objects rest. All arms perform similarly; Zero Gravity
-          is ahead only on PushCube.</figcaption>
-      </figure>
-      <figure class="fig" style="margin:0 0 14px">
-        <img src="static/images/fig_stage_funnel_mid.png" alt="Stage curves for objects inside Zero Gravity's training range: Zero Gravity far ahead on five of six tasks" loading="lazy">
-        <figcaption><b>Inside Zero Gravity's training range</b> (0.10&ndash;0.50 m; RollBall 0.10&ndash;0.35 m; PlaceSphere
-          0.10&ndash;0.31 m, the highest its cantilever support allows). Zero Gravity saw objects floating at these heights during training; the gravity-trained arms never
-          did. This is where the gap is largest.</figcaption>
-      </figure>
+      <summary>Breakdown by object height: where the advantage comes from</summary>
       <figure class="fig" style="margin:0">
-        <img src="static/images/fig_stage_funnel_high.png" alt="Stage curves for objects above every arm's training range: only Zero Gravity reaches the object" loading="lazy">
-        <figcaption><b>Above every arm's training range</b> (above 0.50 m, up to the arm's reach; RollBall has no such
-          range). No arm trained here. Essentially only Zero Gravity reaches and touches the object (baselines at most 1%), though the band is narrow
-          (about 1 cm on PullCube, 4&ndash;8 cm on the other tasks) and task success is near zero (Zero Gravity 2% on
-          PickCube, 0% elsewhere).</figcaption>
+        <img src="static/images/fig_fig1_stages.png?v=20261022" alt="Three line charts: reach, touch, and grasp or move rates against object height. Zero Gravity declines gradually; the gravity-trained baselines collapse above about 0.20 m." loading="lazy">
+        <figcaption>Averaged over the six tasks, in equal 10&nbsp;cm height bins (error bars: SEM over tasks). Near the table
+          (below 0.10&nbsp;m) all arms are similar. From about 0.20&nbsp;m up, every gravity-trained baseline collapses,
+          including fixed and adaptive gravity randomization; Zero Gravity degrades gradually, also above its
+          0.10&ndash;0.50&nbsp;m training range (shaded).</figcaption>
       </figure>
     </details>
 
@@ -150,8 +133,8 @@
         <div class="n">2</div>
         <h4>Gravity-on-contact and gravity-on-grasp</h4>
         <p>In pure zero gravity, policies exploit the floating object instead of learning the skill (reward hacking).
-          We switch gravity on per environment at first contact or at grasp, so the object floats while the robot
-          explores and the task is finished under normal gravity.</p>
+          We switch gravity on at first contact or at grasp, so the object floats while the robot explores and the
+          task is finished under normal gravity.</p>
         <span class="badge done">implemented</span>
       </div>
       <div>
@@ -164,9 +147,11 @@
       <div>
         <div class="n">4</div>
         <h4>Altered gravity as the primary training regime</h4>
-        <p>To our knowledge, the first study of altered gravity as the main training regime for tabletop manipulation,
-          rather than as a robustness perturbation, and of whether the resulting demonstrations improve imitation-learned
-          policies and VLAs.</p>
+        <p>Earlier work lowers gravity in a curriculum so that hard in-hand manipulation becomes learnable
+          (<a href="https://arxiv.org/abs/2111.03043" target="_blank" rel="noopener">Chen et al., 2021</a>;
+          <a href="https://arxiv.org/abs/2204.03698" target="_blank" rel="noopener">Sievers et al., 2022</a>). We
+          instead keep altered gravity as the main training regime for tabletop manipulation, to change where the robot
+          gains experience, and test whether the resulting demonstrations improve imitation-learned policies and VLAs.</p>
         <span class="badge wip">in progress &middot; VLA distillation ongoing</span>
       </div>
     </div>
@@ -197,12 +182,12 @@
     <p>
       We train reinforcement-learning (PPO) experts this way on 8 ManiSkill3 tasks and compare them with regular gravity
       and with fixed and adaptive (OpenAI-style) gravity randomization. On spatially harder versions of six tasks, where the
-      object rests on a support at a random height, zero-gravity experts on a stock Franka Panda reach the object in 66%
-      of episodes, against 34&ndash;36% for the regular-gravity and gravity-randomized baselines, and touch and grasp it
-      about 1.5&times; as often. The gap comes from raised objects. At heights inside the zero-gravity training range,
-      which the gravity-trained experts never saw, zero-gravity experts reach the object in 67% of episodes against
-      17&ndash;20% (3.4&times; the best baseline). Above every arm's training range, only zero-gravity experts reach the
-      object at all (48% of episodes against at most 0.1%). We are now
+      object rests on a support at a random height, zero-gravity experts on a stock Franka Panda reach the object in 68%
+      of episodes, against 25&ndash;28% for the regular-gravity and gravity-randomized baselines, and touch and grasp or
+      move it about twice as often. The gap comes from raised objects. At heights inside the zero-gravity training range,
+      which the gravity-trained experts never saw, zero-gravity experts reach the object in 68% of episodes against
+      17&ndash;20% (3.4&times; the best baseline). Above every arm's training range, the baselines almost never reach the
+      object (at most 0.3% of episodes), while zero-gravity experts still reach it in 41%. We are now
       distilling these demonstrations into VLAs, and sim-to-real tests on a Franka Panda with a Robotiq gripper are
       ongoing.
     </p>
@@ -286,8 +271,9 @@
     <p>
       Each task is a ManiSkill3 tabletop task (Franka arm). We place the object at a random point in a walled 3D volume
       above the table instead of on the table surface. The walls are thin and collision-only: they keep the object, but
-      not the arm, inside the workspace, and cameras do not see them. Gravity is cancelled per environment by writing an
-      opposing force directly into the GPU physics buffers every step. Three modes are used:
+      not the arm, inside the workspace, and cameras do not see them. Each of the thousands of parallel environments switches
+      its own gravity. Some simulators support this directly; in ManiSkill3 we cancel gravity by writing an opposing
+      force into the GPU physics buffers every step. Three modes are used:
     </p>
     <ul>
       <li><b>off</b>: the object floats for the whole episode;</li>
@@ -385,26 +371,21 @@
     <p class="rq">Q2 &middot; Expert-level spatial transfer</p>
     <h3>Do zero-gravity experts transfer zero-shot to harder spatial layouts?</h3>
     <figure class="fig">
-      <img src="static/images/fig_spatial_transfer_bar_3arms.png" alt="Grouped bar chart of zero-shot task success for Zero Gravity, Gravity-DR (fixed) and Gravity-ADR (OpenAI) on six spatially harder task variants" loading="lazy">
+      <img src="static/images/fig_success_by_task.png?v=20261022" alt="Bar charts of zero-shot task success for five training arms on six spatially harder task variants, in two panels with separate scales." loading="lazy">
       <figcaption>
-        <b>Zero-shot task success on spatially harder variants</b> of each task (the object starts on a support at a random
-        height, pooled over the same three height ranges as the stage curves above), stock Panda. Each expert was trained on its normal task and evaluated without fine-tuning.
-        Arms: Zero Gravity (ours), Gravity-DR with a fixed range (|g| ~ U[6, 14] m/s&sup2;), and Gravity-ADR (OpenAI)
-        (range 9.81 &plusmn; up to 4 m/s&sup2;). Bars: mean &plusmn; SEM over
-        3 seeds (circles), 100 episodes per height range per seed. PushT and PlaceSphere (hatched) use the right axis. The Gravity-ADR (OpenAI) arm widens its range only when boundary success reaches 80%. It reached the full
-        &plusmn;4 m/s&sup2; on PickCube, PullCube and PushT; on PushCube and RollBall it reached at most 0.5&ndash;1 m/s&sup2;,
-        and on PlaceSphere two of three seeds shrank back to zero. On those three tasks it therefore ended training at, or
-        close to, regular gravity. The two Regular Gravity arms are in the stage curves above; on PullCube,
-        Regular Gravity, walled matches Zero Gravity (16.8% vs 16.7%), and on PlaceSphere it is highest (7.0%). <b>Gravity-ADR wide (OpenAI)</b> (separate lower and upper bounds,
-        able to reach 0&nbsp;g) <b>is training now</b> as a stronger comparison. Provisional: CPU-simulation evaluation;
-        PlaceSphere at 50M of a planned 150M training steps.
+        <b>Zero-shot task success on spatially harder variants</b> of each task (the object starts on a support at a height
+        drawn uniformly over the arm's reach), stock Panda. Each expert was trained on its normal task and evaluated without
+        fine-tuning. Bars: mean &plusmn; SEM over 3 seeds (dots), 500 episodes per seed; two panels with separate scales.
+        The Gravity-ADR (OpenAI) arm widens its range only when boundary success reaches 80%; it reached the full
+        &plusmn;4 m/s&sup2; on PickCube, PullCube and PushT, at most 0.5&ndash;1 m/s&sup2; on PushCube and RollBall, and on
+        PlaceSphere two of three seeds shrank back to zero.
       </figcaption>
     </figure>
     <div class="finding">
-      <b>Observation.</b> Zero Gravity is ahead of both gravity-randomization baselines on average on five of six tasks
-      (RollBall 32.5% vs 18.8%, PullCube 16.7% vs 9.4%, PickCube 8.0% vs 5.2%) and behind Gravity-ADR (OpenAI) on
-      PlaceSphere (4.4% vs 6.2%). Only the RollBall gap (and PushT, at about 1%) is clear of seed-to-seed noise: its
-      95% bootstrap interval excludes zero against every arm; on the other tasks it does not.
+      <b>Observation.</b> Zero Gravity has the highest zero-shot success on five of six tasks (RollBall 25.8% vs at most
+      12.1%, PullCube 13.4% vs at most 9.0%, PickCube 7.5% vs at most 1.9%) and is behind on PlaceSphere (2.9% vs up to
+      4.7%). The gap is clear of seed-to-seed noise (95% bootstrap interval) on PickCube, PushT and RollBall; on the
+      other tasks it is not.
       Absolute success is low for every policy, because these variants add a step none was trained for (bringing the
       object down from its support to a table goal); the stage curves at the top of the page separate the spatial part,
       where Zero Gravity reaches and touches the object far more often, most of all on raised objects.
@@ -413,7 +394,7 @@
       <summary>Same comparison as test-time gravity varies (1.5, 3, 4.5 and 9.81 m/s&sup2;)</summary>
       <figure class="fig" style="margin:0">
         <img src="static/images/fig_gravity_sweep.png" alt="Four panels of the zero-shot success bar chart, one per test-time gravity value (1.5, 3, 4.5 and 9.81 m/s squared), for Zero Gravity, Gravity-DR (fixed) and Gravity-ADR (OpenAI)" loading="lazy">
-        <figcaption>The same three arms evaluated at four test-time gravity values; three of them lie outside the
+        <figcaption>From an earlier evaluation (100 episodes per height range rather than heights drawn uniformly). The same three arms evaluated at four test-time gravity values; three of them lie outside the
           Gravity-DR training range. On average, Zero Gravity stays ahead on PickCube, PushT and RollBall at every value, Gravity-ADR
           (OpenAI) stays ahead on PlaceSphere, and PushCube and PullCube change order between values. Same caveats as
           above.</figcaption>
